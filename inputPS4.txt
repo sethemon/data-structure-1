@@ -1,6 +1,7 @@
 T12301/Kolkata/Delhi
 T12302/Mumbai/Delhi
 T12303/Delhi/Lucknow/Guwahati
+T18282/Delhi/Guwahati
 T12304/Bangalore/Mumbai/Surat
 T12305/Raipur/Chennai
 T12306/Chennai/Indore/Delhi
@@ -22,7 +23,7 @@ T12321/Indore/Pune/Mumbai
 T12322/Nagpur/Pune/Bangalore
 T12323/Kolkata/Surat
 T12324/Guwahati/Kolkata/Bangalore
-T12325/Vishakhapatnam/Indore/Surat
+T12325/Vishakhapatnam/Indore/Surat/Kolkata/Delhi
 T12326/Raipur/Amritsar
 T12327/Hyderabad/Lucknow/Amritsar
 T12328/Delhi/Chennai

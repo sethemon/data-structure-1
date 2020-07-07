@@ -1,33 +1,57 @@
 from collections import defaultdict
+import logging
+
+logger = logging.getLogger("Graph")
 
 
 class Graph(object):
     """ Graph data structure, undirected by default. """
 
     def __init__(self, connections, directed=False):
-        self._graph = defaultdict(set)
+        self._graph = defaultdict(dict)
         self._directed = directed
         self.add_connections(connections)
 
     def add_connections(self, connections):
         """ Add connections (list of tuple pairs) to graph """
+        for source, destination in connections:
+            self.add(source, destination)
 
-        for node1, node2 in connections:
-            self.add(node1, node2)
-
-    def add(self, node1, node2):
+    def add(self, source, destination):
         """ Add connection between node1 and node2 """
-
-        self._graph[node1].add(node2)
+        for key, value in destination.items():
+            if key not in self._graph:
+                self._graph[key] = dict()
+            if key in self._graph[source]:
+                self._graph[source] = dict((key, [v[0], value[0]]) for k, v in self._graph[source].items())
+            else:
+                self._graph[source].update(destination)
         if not self._directed:
-            self._graph[node2].add(node1)
+            for src, train in destination.items():
+                if source in self._graph[src]:
+                    self._graph[src] = dict((source, [v[0], train[0]]) for k, v in self._graph[src].items())
+                else:
+                    self._graph[src][source] = train
+
+    def find_hub(self):
+        """ Find the largest city/train hub"""
+        # hub_list = []
+        largest = dict()
+        size = 1
+        for src, des in self._graph.items():
+            if len(des.keys()) > size:
+                size = len(des.keys())
+                largest['hub'] = src
+                largest['size'] = len(des.keys())
+                # hub_list.append(largest)
+        return largest
 
     def remove(self, node):
         """ Remove all references to node """
-
-        for n, cxns in self._graph.items():
+        logger.info(f"Deleting {node} ...")
+        for src, des in self._graph.items():
             try:
-                cxns.remove(node)
+                des.pop(node)
             except KeyError:
                 pass
         try:
@@ -35,37 +59,37 @@ class Graph(object):
         except KeyError:
             pass
 
-    def is_connected(self, node1, node2):
-        """ Is node1 directly connected to node2 """
+    def is_connected(self, source, destination):
+        """ Check if source is directly connected to destination """
+        logger.info(f"{source} -> {destination}")
+        if source in self._graph and destination in self._graph[source]:
+            for key, val in self._graph[source].items():
+                if key == destination:
+                    return f"{source} is connected to {key} via {val[0]}"
+        else:
+            return f"{source} is not directly connected to {destination}"
 
-        return node1 in self._graph and node2 in self._graph[node1]
-
-    def find_path(self, node1, node2, path: list):
-        """ Find any path between node1 and node2 (may not be shortest) """
-
-        path = path + [node1]
-        if node1 == node2:
+    def find_path(self, source, destination, path: list):
+        """ Find shortest path between source and destination (return path and connecting Train) """
+        path = path + [source]
+        if source == destination:
             return path
-        if node1 not in self._graph:
+        if source not in self._graph:
             return None
-        for node in self._graph[node1]:
+        shortest = None
+        # for node, value in self._graph[source].items():
+        for node in self._graph[source]:
+            # logger.info(f"{source} >> {value} >> {node}")
             if node not in path:
-                new_path = self.find_path(node, node2, path)
+                new_path = self.find_path(node, destination, path)
                 if new_path:
-                    return new_path
-        return None
-
-    # DFS algorithm
-    def dfs(self, graph, start, visited=None):
-        if visited is None:
-            visited = set()
-        visited.add(start)
-
-        print(start)
-
-        for next_node in graph[start] - visited:
-            self.dfs(self, graph, next_node, visited)
-        return visited
+                    if not shortest or len(new_path) < len(shortest):
+                        shortest = new_path
+        return shortest
 
     def __str__(self):
         return '{}({})'.format(self.__class__.__name__, dict(self._graph))
+
+    @property
+    def show_graph(self):
+        return self._graph
