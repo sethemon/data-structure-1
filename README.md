@@ -10,4 +10,4 @@ https://www.jetbrains.com/pycharm/download/download-thanks.html?platform=windows
 
 When installed, create a new project with Conda environment (set Python==3.7), and download the files (to your project folder) to run the code. 
 
-Reference: https://www.python.org/doc/essays/graphs/
+References: https://www.python.org/doc/essays/graphs/
