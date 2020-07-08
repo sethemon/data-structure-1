@@ -1,8 +1,6 @@
-import logging
 import pprint
 
 from Graph import Graph
-logger = logging.getLogger("FreightBooking")
 pretty_print = pprint.PrettyPrinter()
 
 
@@ -25,24 +23,24 @@ class FreightBooking:
         and there are no duplicates.
         :param input_file:
         """
-        logger.info(f"INPUT FILE : {input_file}")
+        print(f"INPUT FILE : {input_file}")
         input_text_file = open(input_file, "r")
         lines = input_text_file.readlines()
         count = 1
         for line in lines:
             # Strips the newline character
-            # logger.info(f"Line{count}: {line.strip()}")
+            # print(f"Line{count}: {line.strip()}")
             count += 1
             line_info = line.strip().split('/')
-            self.freight_map.update({line_info[0]: line_info[1:]})
+            self.freight_map.update({line_info[0].strip(): [cities.strip() for cities in line_info[1:]]})
             for city in line_info[1:]:
-                self.city_list.append(city)
+                self.city_list.append(city.strip())
         input_text_file.close()
         self.populate_graph()
 
     def populate_graph(self):
         """ Populates the GRAPH with Cities and Trains"""
-        connections = [('Kolkata', {'Delhi': ['T12301']})]
+        connections = []
         self.graph = Graph(connections, directed=False)
         for train, cities in self.freight_map.items():
             i = 0
@@ -50,7 +48,7 @@ class FreightBooking:
                 # print(i, cities[i], cities[i+1], train)
                 self.graph.add(cities[i], {cities[i+1]: [train]})
                 i += 1
-        pretty_print.pprint(self.graph.show_graph)
+        pretty_print.pprint(self.graph.get_graph)
 
     def show_all(self):
         """
@@ -68,11 +66,10 @@ class FreightBooking:
         -----------------------------------------
         """
         city_set = set(self.city_list)
-        logger.info(f"Total no. of freight trains: {len(self.freight_map.keys())}")
-        logger.info(f"Total no. of cities: {len(city_set)}")
-        logger.info(f"List of Freight trains: {self.freight_map.keys()}")
-        logger.info(f"List of Cities: {city_set}")
-        # logger.info(self.freight_map)
+        print(f"Total no. of freight trains: {len(self.freight_map.keys())}")
+        print(f"Total no. of cities: {len(city_set)}")
+        print(f"List of Freight trains: {self.freight_map.keys()}")
+        print(f"List of Cities: {city_set}")
 
     def display_transport_hub(self):
         """
@@ -88,7 +85,19 @@ class FreightBooking:
         List of Freight trains:
         -----------------------------------------
         """
-        print(self.graph.find_hub())
+        hub = self.graph.find_hub()
+        print(f"Main transport hub: {hub['hub']}")
+        print(f"Number of trains visited: {hub['size']}")
+        print(f"List of Freight trains: {hub['trains']}")
+
+    def get_connected_train(self, train_no):
+        train_dict = dict()
+        for train, cities in self.freight_map.items():
+            if train_no == train:
+                train_dict['train'] = train
+                train_dict['count'] = len(cities)
+                train_dict['cities'] = cities
+        return train_dict
 
     def display_connected_cities(self, train):
         """
@@ -108,7 +117,13 @@ class FreightBooking:
         -----------------------------------------
         :param train:
         """
-        pass
+        train_map = self.get_connected_train(str(train).strip())
+        if bool(train_map):
+            print(f"Freight train number: {train_map['train']}")
+            print(f"Number of cities connected: {train_map['count']}")
+            print(f"List of cities connected directly by {train_map['train']}: {train_map['cities']}")
+        else:
+            print(f"Train no: {str(train).strip()} is INVALID")
 
     def display_direct_train(self, city_a, city_b):
         """
@@ -128,7 +143,12 @@ class FreightBooking:
         :param city_a:
         :param city_b:
         """
-        print(self.graph.is_connected(city_a, city_b))
+        print(f"City A: {city_a}")
+        print(f"City B: {city_b}")
+        if city_a in self.graph.get_graph and city_b in self.graph.get_graph:
+            print(self.graph.is_connected(str(city_a).strip(), str(city_b).strip()))
+        else:
+            print(f"INVALID city name, does not exist in our Freight Booking system")
 
     def find_service_available(self, city_a, city_b):
         """
@@ -150,10 +170,19 @@ class FreightBooking:
         :param city_a:
         :param city_b:
         """
-        path = self.graph.find_path(city_a, city_b, [])
-        print(f"Shortest Path : {path}")
-        i = 0
-        while i < len(path) - 1:
-            print(i, path[i], path[i+1])
-            print(self.graph.is_connected(path[i], path[i + 1]))
-            i += 1
+        print(f"City A: {city_a}")
+        print(f"City B: {city_b}")
+        if city_a in self.graph.get_graph and city_b in self.graph.get_graph:
+            path = self.graph.find_path(str(city_a).strip(), str(city_b).strip(), [])
+            if path:
+                print("Can the package be sent: Yes")
+                i = 0
+                while i < len(path) - 1:
+                    print(self.graph.is_connected(path[i], path[i + 1]))
+                    i += 1
+            else:
+                print("Can the package be sent: No")
+                print(f"Path does not exist between {city_a} and {city_b}")
+            print(f"Shortest Path : {path}")
+        else:
+            print(f"INVALID city name, does not exist in our Freight Booking system")
