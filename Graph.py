@@ -1,7 +1,4 @@
 from collections import defaultdict
-import logging
-
-logger = logging.getLogger("Graph")
 
 
 class Graph(object):
@@ -35,7 +32,7 @@ class Graph(object):
 
     def find_hub(self):
         """ Find the largest city/train hub"""
-        # hub_list = []
+        train_list = []
         largest = dict()
         size = 1
         for src, des in self._graph.items():
@@ -43,12 +40,14 @@ class Graph(object):
                 size = len(des.keys())
                 largest['hub'] = src
                 largest['size'] = len(des.keys())
-                # hub_list.append(largest)
+                for k, v in des.items():
+                    train_list.append(v[0])
+        largest['trains'] = train_list
         return largest
 
     def remove(self, node):
         """ Remove all references to node """
-        logger.info(f"Deleting {node} ...")
+        print(f"Deleting {node} ...")
         for src, des in self._graph.items():
             try:
                 des.pop(node)
@@ -61,12 +60,14 @@ class Graph(object):
 
     def is_connected(self, source, destination):
         """ Check if source is directly connected to destination """
-        logger.info(f"{source} -> {destination}")
+        print(f"{source} -> {destination}")
         if source in self._graph and destination in self._graph[source]:
             for key, val in self._graph[source].items():
                 if key == destination:
+                    print(f"Package can be sent directly: Yes, {val[0]}")
                     return f"{source} is connected to {key} via {val[0]}"
         else:
+            print(f"Package can be sent directly: No")
             return f"{source} is not directly connected to {destination}"
 
     def find_path(self, source, destination, path: list):
@@ -79,7 +80,7 @@ class Graph(object):
         shortest = None
         # for node, value in self._graph[source].items():
         for node in self._graph[source]:
-            # logger.info(f"{source} >> {value} >> {node}")
+            # print(f"{source} >> {value} >> {node}")
             if node not in path:
                 new_path = self.find_path(node, destination, path)
                 if new_path:
@@ -91,5 +92,5 @@ class Graph(object):
         return '{}({})'.format(self.__class__.__name__, dict(self._graph))
 
     @property
-    def show_graph(self):
+    def get_graph(self):
         return self._graph
