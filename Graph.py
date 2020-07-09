@@ -58,13 +58,14 @@ class Graph(object):
         except KeyError:
             pass
 
-    def is_connected(self, source, destination):
+    def is_connected(self, source, destination,output_list):
         """ Check if source is directly connected to destination """
         print(f"{source} -> {destination}")
         if source in self._graph and destination in self._graph[source]:
             for key, val in self._graph[source].items():
                 if key == destination:
                     print(f"Package can be sent directly: Yes, {val[0]}")
+                    output_list.append(f"Package can be sent directly: Yes, {val[0]}")
                     return f"{source} is connected to {key} via {val[0]}"
         else:
             print(f"Package can be sent directly: No")
