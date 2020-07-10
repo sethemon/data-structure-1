@@ -1,31 +1,31 @@
-T12301/Calcutta/Delhi
-T12302/Mumbai/Delhi
-T12303/Delhi/Lucknow/Guwahati
-T18282/Delhi/Guwahati
+T12301/Calcutta/New Delhi
+T12302/Mumbai/New Delhi
+T12303/New Delhi/Lucknow/Guwahati
+T18282/New Delhi/Guwahati
 T12304/Bangalore/Mumbai/Surat
 T12305/Raipur/Chennai
-T12306/Chennai/Indore/Delhi
+T12306/Chennai/Indore/New Delhi
 T12307/Hyderabad/Pune/Mumbai
 T12308/Indore/Calcutta
 T12309/Lucknow/Guwahati
 T12310/Calcutta/Nagpur/Pune
 T12311/Guwahati/Raipur
-T12312/Nagpur/Delhi
-T12313/Hyderabad/Delhi/Amritsar
-T12314/Bangalore/Delhi
+T12312/Nagpur/New Delhi
+T12313/Hyderabad/New Delhi/Amritsar
+T12314/Bangalore/New Delhi
 T12315/Bangalore/Goa
-T12316/Goa/Delhi/Amritsar
+T12316/Goa/New Delhi/Amritsar
 T12317/Raipur/Lucknow
-T12318/Amritsar/Delhi/Patna
+T12318/Amritsar/New Delhi/Patna
 T12319/Chennai/Bangalore/Hyderabad
 T12320/Chennai/Vishakhapatnam/Calcutta
 T12321/Indore/Pune/Mumbai
 T12322/Nagpur/Pune/Bangalore
 T12323/Calcutta/Surat
 T12324/Guwahati/Calcutta/Bangalore
-T12325/Vishakhapatnam/Indore/Surat/Calcutta/Delhi
+T12325/Vishakhapatnam/Indore/Surat/Calcutta/New Delhi
 T12326/Raipur/Amritsar
 T12327/Hyderabad/Lucknow/Amritsar
-T12328/Delhi/Chennai
+T12328/New Delhi/Chennai
 T12329/Chennai/Guwahati
 T12330/Pune/Lucknow/Calcutta
