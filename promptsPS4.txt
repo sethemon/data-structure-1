@@ -1,7 +1,8 @@
 searchTransportHub
-searchTrain: T12303
-searchTrain: T12319
-searchCities: Kolkata: Delhi
+searchTrain: T1122
+searchTrain: T1235
+searchTrain: T1299
+searchCities: Calcutta: New Delhi
 searchCities: Chennai: Hyderabad
-ServiceAvailability: Kolkata: Mumbai
+ServiceAvailability: Calcutta: Nagpur
 ServiceAvailability: Nagpur: Vishakhapatnam
