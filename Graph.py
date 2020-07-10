@@ -32,17 +32,15 @@ class Graph(object):
 
     def find_hub(self):
         """ Find the largest city/train hub"""
-        train_list = []
         largest = dict()
-        size = 1
-        for src, des in self._graph.items():
-            if len(des.keys()) > size:
-                size = len(des.keys())
-                largest['hub'] = src
-                largest['size'] = len(des.keys())
-                for k, v in des.items():
-                    train_list.append(v[0])
-        largest['trains'] = train_list
+        train_list = []
+        max_key, max_value = max(self._graph.items(), key=lambda x: len(set(x[1])))
+        for src, des in max_value.items():
+            largest['hub'] = max_key
+            for train in des:
+                train_list.append(train)
+        largest['trains'] = set(train_list)
+        largest['size'] = len(set(train_list))
         return largest
 
     def remove(self, node):
