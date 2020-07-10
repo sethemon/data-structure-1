@@ -12,6 +12,7 @@ class FreightBooking:
         self.train_list = []
         self.city_list = []
         self.graph = None
+        self.output_list = []
 
     def read_city_train_file(self, input_file):
         """
@@ -51,7 +52,7 @@ class FreightBooking:
                 i += 1
         pretty_print.pprint(self.graph.get_graph)
 
-    def show_all(self,output_list):
+    def show_all(self):
         """
         This function displays the count of unique freight trains and cities entered through the input file.
         It should also list out the unique freight trains and cities that have freight service stored. This function
@@ -67,22 +68,22 @@ class FreightBooking:
         -----------------------------------------
         """
         city_set = set(self.city_list)
-        output_list.append("-----------------Function showAll -----------------")
+        self.output_list.append("-----------------Function showAll -----------------")
         'outputFile.write(f"Total no. of freight trains: {len(self.freight_map.keys())}")'
-        output_list.append(f"Total no. of freight trains: {len(self.freight_map.keys())}")
-        output_list.append(f"Total no. of cities: {len(city_set)}")
-        output_list.append(end_of_func)
-        output_list.append(f"List of Freight trains: {self.freight_map.keys()}")
-        output_list.append(end_of_func)
-        output_list.append(f"List of Cities: {city_set}")
+        self.output_list.append(f"Total no. of freight trains: {len(self.freight_map.keys())}")
+        self.output_list.append(f"Total no. of cities: {len(city_set)}")
+        self.output_list.append(end_of_func)
+        self.output_list.append(f"List of Freight trains: {list(self.freight_map.keys())}")
+        self.output_list.append(end_of_func)
+        self.output_list.append(f"List of Cities: {city_set}")
 
         print(f"Total no. of freight trains: {len(self.freight_map.keys())}")
         print(f"Total no. of cities: {len(city_set)}")
         print(f"List of Freight trains: {self.freight_map.keys()}")
         print(f"List of Cities: {city_set}")
-        output_list.append(end_of_func)
-        return output_list
-    def display_transport_hub(self,output_list):
+        self.output_list.append(end_of_func)
+
+    def display_transport_hub(self):
         """
         This function displays the name of the city which is visited by the greatest number of trains. The function
         also displays the names of the incoming freight trains to the outputPS4 file. The function is triggered when
@@ -97,11 +98,11 @@ class FreightBooking:
         -----------------------------------------
         """
         hub = self.graph.find_hub()
-        output_list.append("-----------Function displayTransportHub -----------")
-        output_list.append(f"Main transport hub: {hub['hub']}")
-        output_list.append(f"Number of trains visited: {hub['size']}")
-        output_list.append(f"List of Freight trains: {hub['trains']}")
-        output_list.append(end_of_func)
+        self.output_list.append("-----------Function displayTransportHub -----------")
+        self.output_list.append(f"Main transport hub: {hub['hub']}")
+        self.output_list.append(f"Number of trains visited: {hub['size']}")
+        self.output_list.append(f"List of Freight trains: {hub['trains']}")
+        self.output_list.append(end_of_func)
         print(f"Main transport hub: {hub['hub']}")
         print(f"Number of trains visited: {hub['size']}")
         print(f"List of Freight trains: {hub['trains']}")
@@ -115,7 +116,7 @@ class FreightBooking:
                 train_dict['cities'] = cities
         return train_dict
 
-    def display_connected_cities(self, train,output_list):
+    def display_connected_cities(self, train):
         """
         This function displays all the cities are connected by a single train. The function reads the input freight
         train number from the file promptsPS4.txt with the tag as shown below.
@@ -133,21 +134,21 @@ class FreightBooking:
         -----------------------------------------
         :param train:
         """
-        output_list.append("----------Function displayConnectedCities ---------")
+        self.output_list.append("----------Function displayConnectedCities ---------")
         train_map = self.get_connected_train(str(train).strip())
         if bool(train_map):
-            output_list.append(f"Freight train number: {train_map['train']}")
-            output_list.append(f"Number of cities connected: {train_map['count']}")
-            output_list.append(f"List of cities connected directly by {train_map['train']}: {train_map['cities']}")
+            self.output_list.append(f"Freight train number: {train_map['train']}")
+            self.output_list.append(f"Number of cities connected: {train_map['count']}")
+            self.output_list.append(f"List of cities connected directly by {train_map['train']}: {train_map['cities']}")
             print(f"Freight train number: {train_map['train']}")
             print(f"Number of cities connected: {train_map['count']}")
             print(f"List of cities connected directly by {train_map['train']}: {train_map['cities']}")
         else:
-            output_list.append(f"Train no: {str(train).strip()} is INVALID")
+            self.output_list.append(f"Train no: {str(train).strip()} is INVALID")
             print(f"Train no: {str(train).strip()} is INVALID")
-        output_list.append(end_of_func)
+        self.output_list.append(end_of_func)
 
-    def display_direct_train(self, city_a, city_b, output_list):
+    def display_direct_train(self, city_a, city_b):
         """
         This function displays the freight train name which can be booked to send a package directly from city a to
         city b. The function reads the input cities from the file promptsPS4.txt with the tag as shown below.
@@ -165,19 +166,19 @@ class FreightBooking:
         :param city_a:
         :param city_b:
         """
-        output_list.append("------------Function displayDirectTrain -----------")
-        output_list.append(f"City A: {city_a}")
-        output_list.append(f"City B: {city_b}")
+        self.output_list.append("------------Function displayDirectTrain -----------")
+        self.output_list.append(f"City A: {city_a}")
+        self.output_list.append(f"City B: {city_b}")
         print(f"City A: {city_a}")
         print(f"City B: {city_b}")
         if city_a in self.graph.get_graph and city_b in self.graph.get_graph:
             """print(self.graph.is_connected(str(city_a).strip(), str(city_b).strip()))"""
-            output_list.append(self.graph.is_connected(str(city_a).strip(), str(city_b).strip(),output_list))
+            self.output_list.append(self.graph.is_connected(str(city_a).strip(), str(city_b).strip(),self.output_list))
         else:
             print(f"INVALID city name, does not exist in our Freight Booking system")
-            output_list.append(f"INVALID city name, does not exist in our Freight Booking system")
-        output_list.append(end_of_func)
-    def find_service_available(self, city_a, city_b,output_list):
+            self.output_list.append(f"INVALID city name, does not exist in our Freight Booking system")
+        self.output_list.append(end_of_func)
+    def find_service_available(self, city_a, city_b):
         """
         This function finds whether a package can be sent from city a to city b with any number of stops/transfers
         (ie to deliver the package from city a to city b it might even get transferred on another train at an
@@ -197,29 +198,32 @@ class FreightBooking:
         :param city_a:
         :param city_b:
         """
-        output_list.append("----------Function findServiceAvailable -----------")
+        self.output_list.append("----------Function findServiceAvailable -----------")
         print(f"City A: {city_a}")
         print(f"City B: {city_b}")
-        output_list.append(f"City A: {city_a}")
-        output_list.append(f"City B: {city_b}")
+        self.output_list.append(f"City A: {city_a}")
+        self.output_list.append(f"City B: {city_b}")
         if city_a in self.graph.get_graph and city_b in self.graph.get_graph:
             path = self.graph.find_path(str(city_a).strip(), str(city_b).strip(), [])
             if path:
                 print("Can the package be sent: Yes")
-                output_list.append("Can the package be sent: Yes")
+                self.output_list.append("Can the package be sent: Yes")
                 i = 0
                 while i < len(path) - 1:
-                    print(self.graph.is_connected(path[i], path[i + 1],output_list))
-                    output_list.append(self.graph.is_connected(path[i], path[i + 1],output_list))
+                    print(self.graph.is_connected(path[i], path[i + 1],self.output_list))
+                    self.output_list.append(self.graph.is_connected(path[i], path[i + 1],self.output_list))
                     i += 1
             else:
                 print("Can the package be sent: No")
-                output_list.append("Can the package be sent: No")
+                self.output_list.append("Can the package be sent: No")
                 print(f"Path does not exist between {city_a} and {city_b}")
-                output_list.append(f"Path does not exist between {city_a} and {city_b}")
+                self.output_list.append(f"Path does not exist between {city_a} and {city_b}")
             print(f"Shortest Path : {path}")
-            output_list.append(f"Shortest Path : {path}")
+            self.output_list.append(f"Shortest Path : {path}")
         else:
             print(f"INVALID city name, does not exist in our Freight Booking system")
-            output_list.append(f"INVALID city name, does not exist in our Freight Booking system")
-        output_list.append(end_of_func)
+            self.output_list.append(f"INVALID city name, does not exist in our Freight Booking system")
+        self.output_list.append(end_of_func)
+    def write_output_file(self,output_file):
+        for item in self.output_list:
+            output_file.write("%s\n" % item)
