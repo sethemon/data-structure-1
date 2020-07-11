@@ -4,7 +4,7 @@ from DSAD_FreightBooking import FreightBooking
 eol = '\n'
 outputList = []
 
-input_file = Path(__file__).parent / 'test_inputPS4.txt'
+input_file = Path(__file__).parent / 'inputPS4.txt'
 input_trigger_file = Path(__file__).parent / 'promptsPS4.txt'
 outputList.append(f"INPUT TRIGGER FILE : {input_trigger_file} \n")
 input_text_file = open(input_trigger_file, "r")
@@ -12,6 +12,8 @@ outputFile = open("outputPS4.txt", "w+")
 
 obj = FreightBooking()
 obj.read_city_train_file(input_file)
+#obj.get_train("T1122")
+
 outputList.append("-----------------Function showAll -----------------")
 obj.show_all(outputList)
 outputList.append(eol)

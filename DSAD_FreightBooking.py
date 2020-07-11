@@ -103,14 +103,18 @@ class FreightBooking:
         # print(f"Number of trains visited: {hub['size']}")
         # print(f"List of Freight trains: {hub['trains']}")
 
-    def get_connected_train(self, train_no):
-        train_dict = dict()
-        for train, cities in self.freight_map.items():
-            if train_no == train:
-                train_dict['train'] = train
-                train_dict['count'] = len(cities)
-                train_dict['cities'] = cities
-        return train_dict
+    # def get_connected_train1(self, train_no):
+    #     # for destDict in self.graph.get_graph.values():
+    #     #     print(destDict)
+    #     train_dict = dict()
+    #     for train, cities in self.freight_map.items():
+    #         if train_no == train:
+    #             train_dict['train'] = train
+    #             train_dict['count'] = len(cities)
+    #             train_dict['cities'] = cities
+    #     # pretty_print.pprint("Train_dict:")
+    #     # pretty_print.pprint(train_dict)
+    #     return train_dict
 
     def display_connected_cities(self, train, output_list):
         """
@@ -131,7 +135,7 @@ class FreightBooking:
         :param output_list:
         :param train:
         """
-        train_map = self.get_connected_train(str(train).strip())
+        train_map = self.get_connected_train(str(train).strip())[0]
         if bool(train_map):
             output_list.append(f"Freight train number: {train_map['train']}")
             output_list.append(f"Number of cities connected: {train_map['count']}")
@@ -174,6 +178,46 @@ class FreightBooking:
             # print(f"INVALID city name, does not exist in our Freight Booking system")
             output_list.append(f"INVALID city name, does not exist in our Freight Booking system.")
         output_list.append(end_of_func)
+
+
+    def get_connected_train(self,train_no):
+        counter = 0
+        train_dict = dict()
+        counter = counter + 1
+        src_cities = self.graph.get_graph.keys()
+        counter = counter + 1 + len(src_cities)
+        cities = []
+        counter = counter + 1
+
+        for city in src_cities:
+            counter = counter + 1
+            dest_cities = self.graph.get_graph.get(city).keys()
+            counter = counter + 1 + len(dest_cities)
+            dest_dict = self.graph.get_graph.get(city)
+            counter = counter + 1 + len(dest_dict)
+            for destCity in dest_cities:
+                counter = counter + 1
+                if train_no in dest_dict.get(destCity):
+                    # Need to check if dest_dict.get(destCity) is to be considered
+                    counter = counter + 1
+                    cities.append(destCity)
+                    counter = counter + 1
+                    cities.append(city)
+                    counter = counter + 1
+            counter = counter * len(dest_cities)
+        counter = counter * len(src_cities)
+        citySet = set(cities)
+        counter = counter + 1
+        if len(citySet) != 0:
+            counter = counter + 1
+            train_dict['train'] = train_no
+            counter = counter + 1
+            train_dict['count'] = len(citySet)
+            counter = counter + 1
+            train_dict['cities'] = citySet
+            counter = counter + 1
+        print("Counter: ", counter, "Train Dict: ",train_dict)
+        return train_dict,counter
 
     def find_service_available(self, city_a, city_b, output_list):
         """
