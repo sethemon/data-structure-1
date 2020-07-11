@@ -1,0 +1,63 @@
+def get_parsed_abbyy_xml(self, doc_id, file_path):
+	"""
+	parse ABBYY error logs and return the messages
+
+	:param doc_id:
+	:param file_path:
+	:return:
+	"""
+	log_dict = {}
+	try:
+		self.logger.debug(f"XML path : {file_path}")
+		if path.exists(file_path):
+			doc = xml.dom.minidom.parse(file_path)
+			stats = doc.getElementsByTagName(Axk.STATISTICS)
+			message = doc.getElementsByTagName(Axk.MESSAGE)
+			pages = doc.getElementsByTagName(Axk.PAGE)
+			verification_name = doc.getElementsByTagName(Axk.VERIFICATION_USER_NAME)
+			verification_time = doc.getElementsByTagName(Axk.VERIFICATION_TIME)
+
+			if stats:
+				log_dict[Idk.TOTAL_CHARACTERS] = stats[0].getAttribute(Axk.TOTAL_CHARACTERS)
+				log_dict[Idk.UNRECOGNIZED_CHARACTERS] = stats[0].getAttribute(Axk.UNCERTAIN_CHARACTERS)
+
+			if pages:
+				page_number = 0
+				for each_page in pages:
+					msg_list = {}
+					if each_page.getElementsByTagName(Axk.STATISTICS):
+						msg_list[Idk.PAGE_TOTAL_CHARACTERS] = each_page.getElementsByTagName(Axk.STATISTICS)[
+							0].getAttribute(Axk.TOTAL_CHARACTERS)
+						msg_list[Idk.PAGE_UNCERTAIN_CHARACTERS] = each_page.getElementsByTagName(Axk.STATISTICS)[
+							0].getAttribute(Axk.UNCERTAIN_CHARACTERS)
+					page_number = int(each_page.getAttribute(Axk.PAGE_NUMBER)) + 1
+					messages = each_page.getElementsByTagName(Axk.MESSAGE)
+					for each_msg in messages:
+						if each_msg.getElementsByTagName(Axk.PARAMS):
+							msg_list[Idk.PAGE_TEXT] = each_msg.getElementsByTagName(Axk.PARAMS)[2].firstChild.nodeValue
+					page_number_key = f"{Axk.PAGE}{page_number}"
+					log_dict[page_number_key] = msg_list
+				log_dict[Idk.PAGE_COUNT] = page_number
+
+			xml_result = doc.getElementsByTagName(Axk.XML_RESULT)
+			processing_time = int(xml_result[0].getAttribute(Axk.PROCESS_DURATION))
+			log_dict[Idk.PROCESS_DURATION] = round((processing_time / 60000), 2)
+
+			if verification_name:
+				for each_name in verification_name:
+					if each_name.firstChild is not None:
+						log_dict[Idk.VERIFIER_ID] = each_name.firstChild.nodeValue
+			if verification_time:
+				log_dict[Idk.REVIEW_TIMESTAMP] = verification_time[0].firstChild.nodeValue
+
+			if message:
+				msg_list = []
+				for each_msg in message:
+					if each_msg.getElementsByTagName(Axk.TEXT):
+						msg_list.append(each_msg.getElementsByTagName(Axk.TEXT)[0].firstChild.nodeValue)
+				log_dict[Idk.MESSAGES] = msg_list
+
+	except Exception as excp:
+		raise AbbyyInternalError(doc_id=doc_id, message=f"Exception in get_parsed_abbyy_xml() : {excp.args}",
+								 error=excp)
+	return log_dict

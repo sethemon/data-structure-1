@@ -3,12 +3,14 @@ from pathlib import Path
 from DSAD_FreightBooking import FreightBooking
 eol = '\n'
 outputList = []
+analyze_list = []
 
-input_file = Path(__file__).parent / 'test_inputPS4.txt'
+input_file = Path(__file__).parent / 'inputPS4.txt'
 input_trigger_file = Path(__file__).parent / 'promptsPS4.txt'
 outputList.append(f"INPUT TRIGGER FILE : {input_trigger_file} \n")
 input_text_file = open(input_trigger_file, "r")
 outputFile = open("outputPS4.txt", "w+")
+analysisFile = open("analysisPS4.txt", "w+")
 
 obj = FreightBooking()
 obj.read_city_train_file(input_file)
@@ -40,20 +42,10 @@ for prompt in prompt_lines:
         obj.find_service_available(city_a, city_b, outputList)
         outputList.append(eol)
 
+analyze_list = obj.get_analysis_list()
 for item in outputList:
     outputFile.write("%s\n" % item)
 outputFile.close()
-"""
-obj = FreightBooking()
-obj.read_city_train_file(input_file)
-obj.show_all()
-if lines = "searchTransportHub" :
-        print"Calling searchTransportHub"
-        obj.display_transport_hub()
-'obj.display_transport_hub()'
-obj.display_connected_cities('T1235')
-obj.display_connected_cities('T1122')
-obj.display_direct_train('New Delhi', 'Calcutta')
-obj.display_direct_train('Calcutta', 'New Delhi')
-obj.find_service_available('Calcutta', 'Nagpur')
-"""
+for analysis in analyze_list:
+    analysisFile.write("%s\n" % analysis)
+analysisFile.close()

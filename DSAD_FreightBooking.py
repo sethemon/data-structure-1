@@ -2,6 +2,7 @@ import pprint
 import itertools
 
 from Graph import Graph
+
 pretty_print = pprint.PrettyPrinter()
 end_of_func = "---------------------------------------------------"
 
@@ -12,6 +13,7 @@ class FreightBooking:
         self.freight_map = dict()
         self.train_list = []
         self.city_list = []
+        self.analyze_list = []
         self.graph = None
 
     def read_city_train_file(self, input_file):
@@ -44,6 +46,7 @@ class FreightBooking:
         """ Populates the GRAPH with Cities and Trains"""
         connections = []
         self.graph = Graph(connections, directed=False)
+        pretty_print.pprint(self.freight_map)
         for train, cities in self.freight_map.items():
             i = 0
             while i < len(cities) - 1:
@@ -71,10 +74,16 @@ class FreightBooking:
         output_list.append(f"Total no. of freight trains: {len(self.freight_map.keys())}")
         output_list.append(f"Total no. of cities: {len(city_set)}")
         output_list.append(end_of_func)
-        output_list.append(f"List of Freight trains: {self.freight_map.keys()}")
+        output_list.append(f"List of Freight trains: ")
+        for train in self.freight_map.keys():
+            output_list.append(train)
         output_list.append(end_of_func)
-        output_list.append(f"List of Cities: {city_set}")
+        output_list.append(f"List of Cities: ")
+        for cities in city_set:
+            output_list.append(cities)
         output_list.append(end_of_func)
+        self.analyze_list.append(f"Time Complexity for Average case scenario -> Big-O(vertices+edges)")
+        self.analyze_list.append(f"showAll -> Big-O({len(city_set) + len(self.freight_map.keys())})")
         # print(f"Total no. of freight trains: {len(self.freight_map.keys())}")
         # print(f"Total no. of cities: {len(city_set)}")
         # print(f"List of Freight trains: {self.freight_map.keys()}")
@@ -99,18 +108,10 @@ class FreightBooking:
         output_list.append(f"Number of trains visited: {hub['size']}")
         output_list.append(f"List of Freight trains: {hub['trains']}")
         output_list.append(end_of_func)
+        self.analyze_list.append(f"displayTransportHub -> Big-O({hub['counter']})")
         # print(f"Main transport hub: {hub['hub']}")
         # print(f"Number of trains visited: {hub['size']}")
         # print(f"List of Freight trains: {hub['trains']}")
-
-    def get_connected_train(self, train_no):
-        train_dict = dict()
-        for train, cities in self.freight_map.items():
-            if train_no == train:
-                train_dict['train'] = train
-                train_dict['count'] = len(cities)
-                train_dict['cities'] = cities
-        return train_dict
 
     def display_connected_cities(self, train, output_list):
         """
@@ -131,7 +132,8 @@ class FreightBooking:
         :param output_list:
         :param train:
         """
-        train_map = self.get_connected_train(str(train).strip())
+        train_map, counter = self.graph.get_train(str(train).strip())
+        # print(train_map)
         if bool(train_map):
             output_list.append(f"Freight train number: {train_map['train']}")
             output_list.append(f"Number of cities connected: {train_map['count']}")
@@ -143,6 +145,7 @@ class FreightBooking:
             output_list.append(f"Train no: {str(train).strip()} does not exist in our Freight Booking system.")
             # print(f"Train no: {str(train).strip()} is INVALID")
         output_list.append(end_of_func)
+        self.analyze_list.append(f"displayConnectedCities -> Big-O({counter})")
 
     def display_direct_train(self, city_a, city_b, output_list):
         """
@@ -169,7 +172,9 @@ class FreightBooking:
         # print(f"City B: {city_b}")
         if city_a in self.graph.get_graph and city_b in self.graph.get_graph:
             # print(self.graph.is_connected(str(city_a).strip(), str(city_b).strip()))
-            output_list.append(self.graph.is_connected(str(city_a).strip(), str(city_b).strip()))
+            connected_train, counter = self.graph.is_connected(str(city_a).strip(), str(city_b).strip())
+            output_list.append(connected_train)
+            self.analyze_list.append(f"displayDirectTrain -> Big-O({counter})")
         else:
             # print(f"INVALID city name, does not exist in our Freight Booking system")
             output_list.append(f"INVALID city name, does not exist in our Freight Booking system.")
@@ -203,13 +208,15 @@ class FreightBooking:
         trains = []
         if city_a in self.graph.get_graph and city_b in self.graph.get_graph:
             path = self.graph.find_path(str(city_a).strip(), str(city_b).strip(), [])
+            count = self.graph.counter
             if path:
                 # print("Can the package be sent: Yes")
                 output_list.append("Can the package be sent: Yes")
                 i = 0
                 while i < len(path) - 1:
                     # print(self.graph.is_connected(path[i], path[i + 1]))
-                    temp = self.graph.is_connected(path[i], path[i + 1])
+                    temp, counter = self.graph.is_connected(path[i], path[i + 1])
+                    count = count + counter
                     trains.append(temp.split(',')[-1:][0].strip())
                     i += 1
                 # trains.append("END")
@@ -219,13 +226,18 @@ class FreightBooking:
                     temp_print = temp_print + f"{city} > {train} > "
                 temp_print = "".join(temp_print.rsplit(" >", 1)).strip()
                 output_list.append(f"Shortest Path : {temp_print}")
+                self.analyze_list.append(f"findServiceAvailable -> Big-O({count})")
             else:
                 # print("Can the package be sent: No")
                 output_list.append("Can the package be sent: No")
                 # print(f"Path does not exist between {city_a} and {city_b}")
                 output_list.append(f"Feasible Path does not exist between {city_a} and {city_b}")
                 # print(f"Shortest Path : {path}")
+                self.analyze_list.append(f"findServiceAvailable -> Big-O({count})")
         else:
             # print(f"INVALID city name, does not exist in our Freight Booking system")
             output_list.append(f"INVALID city name, does not exist in our Freight Booking system")
         output_list.append(end_of_func)
+
+    def get_analysis_list(self):
+        return self.analyze_list
