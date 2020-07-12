@@ -1,0 +1,15 @@
+T12306/Chennai/Indore/New Delhi
+T12307/Hyderabad/Pune/Mumbai
+T12308/Indore/Calcutta
+T12309/Lucknow/Guwahati
+T12310/Calcutta/Nagpur/Pune
+T12311/Guwahati/Raipur
+T12312/Nagpur/New Delhi
+T12313/Hyderabad/New Delhi/Amritsar
+T12314/Bangalore/New Delhi
+T12315/Bangalore/Goa
+T12316/Goa/New Delhi/Amritsar
+T12317/Raipur/Lucknow
+T12318/Amritsar/New Delhi/Patna
+T12319/Chennai/Bangalore/Hyderabad
+T12320/Chennai/Vishakhapatnam/Calcutta
