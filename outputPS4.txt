@@ -6,62 +6,62 @@ Total no. of cities: 17
 ---------------------------------------------------
 List of Freight trains: 
 T12301
-T12302
-T12303
-T18282
-T12304
-T12305
-T12306
-T12307
-T12308
-T12309
-T12310
-T12311
+T12326
 T12312
-T12313
-T12314
-T12315
-T12316
 T12317
 T12318
-T12319
-T12320
-T12321
-T12322
-T12323
-T12324
+T18282
+T12314
+T12310
+T12308
+T12311
 T12325
-T12326
-T12327
+T12303
+T12316
 T12328
-T12329
+T12323
+T12327
+T12315
+T12302
+T12304
+T12306
+T12320
+T12313
 T12330
+T12322
+T12305
+T12309
+T12329
+T12319
+T12324
+T12321
+T12307
 ---------------------------------------------------
 List of Cities: 
-Nagpur
-Lucknow
-Vishakhapatnam
-Calcutta
-Surat
-Mumbai
-Guwahati
-Chennai
-Hyderabad
-Indore
-Patna
-Pune
-Bangalore
-Goa
-Amritsar
-Raipur
 New Delhi
+Pune
+Patna
+Lucknow
+Surat
+Hyderabad
+Mumbai
+Nagpur
+Guwahati
+Raipur
+Calcutta
+Bangalore
+Vishakhapatnam
+Amritsar
+Chennai
+Indore
+Goa
 ---------------------------------------------------
 
 
 -----------Function displayTransportHub -----------
 Main transport hub: New Delhi
-Number of trains visited: 11
-List of Freight trains: {'T12325', 'T12313', 'T12316', 'T12303', 'T12314', 'T12312', 'T12306', 'T12302', 'T12328', 'T18282', 'T12318'}
+Number of trains visited: 12
+List of Freight trains: {'T12313', 'T18282', 'T12316', 'T12318', 'T12314', 'T12328', 'T12306', 'T12301', 'T12302', 'T12325', 'T12312', 'T12303'}
 ---------------------------------------------------
 
 
@@ -73,7 +73,7 @@ Train no: T1122 does not exist in our Freight Booking system.
 ----------Function displayConnectedCities ---------
 Freight train number: T12320
 Number of cities connected: 3
-List of cities connected directly by T12320: {'Vishakhapatnam', 'Chennai', 'Calcutta'}
+List of cities connected directly by T12320: {'Chennai', 'Calcutta', 'Vishakhapatnam'}
 ---------------------------------------------------
 
 
@@ -85,7 +85,7 @@ Train no: T1235 does not exist in our Freight Booking system.
 ----------Function displayConnectedCities ---------
 Freight train number: T12325
 Number of cities connected: 5
-List of cities connected directly by T12325: {'Vishakhapatnam', 'Calcutta', 'Indore', 'Surat', 'New Delhi'}
+List of cities connected directly by T12325: {'New Delhi', 'Surat', 'Calcutta', 'Vishakhapatnam', 'Indore'}
 ---------------------------------------------------
 
 
@@ -104,7 +104,7 @@ List of cities connected directly by T12311: {'Guwahati', 'Raipur'}
 ------------Function displayDirectTrain -----------
 City A: Calcutta
 City B: New Delhi
-Package can be sent directly: Yes, T12324
+Package can be sent directly: Yes, T12301
 ---------------------------------------------------
 
 

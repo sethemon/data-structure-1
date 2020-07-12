@@ -1,13 +1,50 @@
-Time Complexity for Average case scenario -> Big-O(vertices+edges)
-showAll -> Big-O(48)
-displayTransportHub -> Big-O(29)
-displayConnectedCities -> Big-O(238)
-displayConnectedCities -> Big-O(254)
-displayConnectedCities -> Big-O(238)
-displayConnectedCities -> Big-O(266)
-displayConnectedCities -> Big-O(238)
-displayConnectedCities -> Big-O(248)
-displayDirectTrain -> Big-O(3)
-displayDirectTrain -> Big-O(1)
-findServiceAvailable -> Big-O(1056006)
-findServiceAvailable -> Big-O(2682108)
+cities  ->  Vertices of the Graph
+trains  ->  Edges of the Graph
+---------------------------------------------------
+-----------------Function showAll -----------------
+Time Complexity for Average case scenario -> Big-Theta(85)
+Time Complexity for Worst case scenario -> Big-O(vertices+edges) -> Big-O(all cities + all trains)
+---------------------------------------------------
+-----------Function displayTransportHub -----------
+Time Complexity for Average case scenario -> Big-Theta(29)
+Time Complexity for Worst case scenario -> Big-O(all cities + trains connecting them)
+---------------------------------------------------
+----------Function displayConnectedCities ---------
+Time Complexity for Average case scenario -> Big-Theta(0)
+Time Complexity for Worst case scenario -> Big-O(all trains + cities connected by these trains)
+---------------------------------------------------
+----------Function displayConnectedCities ---------
+Time Complexity for Average case scenario -> Big-Theta(4)
+Time Complexity for Worst case scenario -> Big-O(all trains + cities connected by these trains)
+---------------------------------------------------
+----------Function displayConnectedCities ---------
+Time Complexity for Average case scenario -> Big-Theta(0)
+Time Complexity for Worst case scenario -> Big-O(all trains + cities connected by these trains)
+---------------------------------------------------
+----------Function displayConnectedCities ---------
+Time Complexity for Average case scenario -> Big-Theta(8)
+Time Complexity for Worst case scenario -> Big-O(all trains + cities connected by these trains)
+---------------------------------------------------
+----------Function displayConnectedCities ---------
+Time Complexity for Average case scenario -> Big-Theta(0)
+Time Complexity for Worst case scenario -> Big-O(all trains + cities connected by these trains)
+---------------------------------------------------
+----------Function displayConnectedCities ---------
+Time Complexity for Average case scenario -> Big-Theta(2)
+Time Complexity for Worst case scenario -> Big-O(all trains + cities connected by these trains)
+---------------------------------------------------
+------------Function displayDirectTrain -----------
+Time Complexity for Average case scenario -> Big-Theta(1)
+Time Complexity for Worst case scenario -> Big-O(city + cities directly connected with it)
+---------------------------------------------------
+------------Function displayDirectTrain -----------
+Time Complexity for Average case scenario -> Big-Theta(1)
+Time Complexity for Worst case scenario -> Big-O(city + cities directly connected with it)
+---------------------------------------------------
+----------Function findServiceAvailable -----------
+Time Complexity for Average case scenario -> Big-Theta(40475)
+Time Complexity for Worst case scenario -> Big-O(city + all cities connected directly or indirectly with it)
+---------------------------------------------------
+----------Function findServiceAvailable -----------
+Time Complexity for Average case scenario -> Big-Theta(138417)
+Time Complexity for Worst case scenario -> Big-O(city + all cities connected directly or indirectly with it)

@@ -17,17 +17,21 @@ class Graph(object):
 
     def add(self, source, destination):
         """ Add connection between node1 and node2 """
-        for key, value in destination.items():
-            if key not in self._graph:
-                self._graph[key] = dict()
-            if key in self._graph[source]:
-                self._graph[source].update(dict((key, [v[0], value[0]]) for k, v in self._graph[source].items()))
+        for des, train in destination.items():
+            if des not in self._graph:
+                self._graph[des] = dict()
+            if des in self._graph[source]:
+                for k, v in self._graph[source].items():
+                    if k == des and train[0] not in v:
+                        v.append(train[0])
             else:
                 self._graph[source].update(destination)
         if not self._directed:
             for src, train in destination.items():
                 if source in self._graph[src]:
-                    self._graph[src].update(dict((source, [v[0], train[0]]) for k, v in self._graph[src].items()))
+                    for k, v in self._graph[source].items():
+                        if k == source and train[0] not in v:
+                            v.append(train[0])
                 else:
                     self._graph[src].update({source: train})
 
@@ -40,9 +44,10 @@ class Graph(object):
         counter = counter + len(self._graph.keys())
         for src, des in max_value.items():
             counter += 1
-            largest['hub'] = max_key
             for train in des:
                 train_list.append(train)
+
+        largest['hub'] = max_key
         largest['trains'] = set(train_list)
         largest['size'] = len(set(train_list))
         largest['counter'] = counter
@@ -66,9 +71,7 @@ class Graph(object):
         # print(f"{source} -> {destination}")
         counter = 0
         if source in self._graph and destination in self._graph[source]:
-            counter += 1
             for key, val in self._graph[source].items():
-                counter += 1
                 if key == destination:
                     counter += 1
                     # print(f"{source} is connected to {key} via {val[0]}")
@@ -81,19 +84,14 @@ class Graph(object):
     def find_path(self, source, destination, path: list):
         """ Find shortest path between source and destination (return path and connecting Train) """
         path = path + [source]
-        self.counter += 1
         if source == destination:
             return path
         if source not in self._graph:
             return None
         shortest = None
-        # for node, value in self._graph[source].items():
         for node in self._graph[source]:
-            self.counter += 1
-            # print(f"{source} >> {value} >> {node}")
             if node not in path:
                 new_path = self.find_path(node, destination, path)
-                self.counter += 1
                 if new_path:
                     if not shortest or len(new_path) < len(shortest):
                         self.counter += 1
@@ -101,40 +99,38 @@ class Graph(object):
         return shortest
 
     def show_all(self):
-        pass
+        counter = 1
+        city_list = []
+        train_list = []
+        for src, des in self._graph.items():
+            city_list.append(src)
+            for city, trains in des.items():
+                city_list.append(city)
+                counter += 1
+                for train in trains:
+                    train_list.append(train)
+
+        return list(set(city_list)), list(set(train_list)), counter
 
     def get_train(self, train_number):
         counter = 0
         train_dict = dict()
         src_cities = self._graph.keys()
-        counter = counter + 1 + len(src_cities)
         cities = []
         for city in src_cities:
-            counter += 1
             des_cities = self._graph.get(city).keys()
-            counter = counter + 1 + len(des_cities)
             des_dict = self._graph.get(city)
-            counter = counter + 1 + len(des_dict)
             for des_city in des_cities:
                 if train_number in des_dict.get(des_city):
-                    counter += 1
                     cities.append(des_city)
-                    counter += 1
                     cities.append(city)
                     counter += 1
-            # counter = counter * len(des_cities)
-        # counter = counter * len(src_cities)
         city_set = set(cities)
-        counter += 1
+        # counter += 1
         if len(city_set) != 0:
-            counter = counter + 1
             train_dict['train'] = train_number
-            counter = counter + 1
             train_dict['count'] = len(city_set)
-            counter = counter + 1
             train_dict['cities'] = city_set
-            counter = counter + 1
-        # print(f"Counter: {counter}, Train Dict: {train_dict}")
         return train_dict, counter
 
     def __str__(self):
