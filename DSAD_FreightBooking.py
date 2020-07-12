@@ -70,23 +70,27 @@ class FreightBooking:
         List of Cities:
         -----------------------------------------
         """
-        city_set = set(self.city_list)
-        output_list.append(f"Total no. of freight trains: {len(self.freight_map.keys())}")
-        output_list.append(f"Total no. of cities: {len(city_set)}")
+        cities, trains, counter = self.graph.show_all()
+        # city_set = set(self.city_list)
+        # output_list.append(f"Total no. of freight trains: {len(self.freight_map.keys())}")
+        output_list.append(f"Total no. of freight trains: {len(trains)}")
+        output_list.append(f"Total no. of cities: {len(cities)}")
         output_list.append(end_of_func)
         output_list.append(f"List of Freight trains: ")
-        for train in self.freight_map.keys():
+        # for train in self.freight_map.keys():
+        for train in trains:
             output_list.append(train)
         output_list.append(end_of_func)
         output_list.append(f"List of Cities: ")
-        for cities in city_set:
-            output_list.append(cities)
+        for city in cities:
+            output_list.append(city)
         output_list.append(end_of_func)
         self.analyze_list.append(f"cities  ->  Vertices of the Graph")
         self.analyze_list.append(f"trains  ->  Edges of the Graph")
         self.analyze_list.append(end_of_func)
-        self.analyze_list.append(f"showAll -> ")
-        self.analyze_list.append(f"Time Complexity for Average case scenario -> Big-Theta({len(city_set) + len(self.freight_map.keys())})")
+        self.analyze_list.append(f"-----------------Function showAll -----------------")
+        self.analyze_list.append(f"Time Complexity for Average case scenario -> "
+                                 f"Big-Theta({counter})")
         self.analyze_list.append(f"Time Complexity for Worst case scenario -> Big-O(vertices+edges) -> "
                                  f"Big-O(all cities + all trains)")
         # print(f"Total no. of freight trains: {len(self.freight_map.keys())}")
@@ -114,9 +118,10 @@ class FreightBooking:
         output_list.append(f"List of Freight trains: {hub['trains']}")
         output_list.append(end_of_func)
         self.analyze_list.append(end_of_func)
-        self.analyze_list.append(f"displayTransportHub -> ")
+        self.analyze_list.append(f"-----------Function displayTransportHub -----------")
         self.analyze_list.append(f"Time Complexity for Average case scenario -> Big-Theta({hub['counter']})")
-        self.analyze_list.append(f"Time Complexity for Worst case scenario -> Big-O(all cities + trains connecting them)")
+        self.analyze_list.append(
+            f"Time Complexity for Worst case scenario -> Big-O(all cities + trains connecting them)")
         # print(f"Main transport hub: {hub['hub']}")
         # print(f"Number of trains visited: {hub['size']}")
         # print(f"List of Freight trains: {hub['trains']}")
@@ -154,9 +159,10 @@ class FreightBooking:
             # print(f"Train no: {str(train).strip()} is INVALID")
         output_list.append(end_of_func)
         self.analyze_list.append(end_of_func)
-        self.analyze_list.append(f"displayConnectedCities -> ")
+        self.analyze_list.append(f"----------Function displayConnectedCities ---------")
         self.analyze_list.append(f"Time Complexity for Average case scenario -> Big-Theta({counter})")
-        self.analyze_list.append(f"Time Complexity for Worst case scenario -> Big-O(all trains + cities connected by these trains)")
+        self.analyze_list.append(
+            f"Time Complexity for Worst case scenario -> Big-O(all trains + cities connected by these trains)")
 
     def display_direct_train(self, city_a, city_b, output_list):
         """
@@ -186,9 +192,10 @@ class FreightBooking:
             connected_train, counter = self.graph.is_connected(str(city_a).strip(), str(city_b).strip())
             output_list.append(connected_train)
             self.analyze_list.append(end_of_func)
-            self.analyze_list.append(f"displayDirectTrain -> ")
+            self.analyze_list.append(f"------------Function displayDirectTrain -----------")
             self.analyze_list.append(f"Time Complexity for Average case scenario -> Big-Theta({counter})")
-            self.analyze_list.append(f"Time Complexity for Worst case scenario -> Big-O(city + cities directly connected with it)")
+            self.analyze_list.append(
+                f"Time Complexity for Worst case scenario -> Big-O(city + cities directly connected with it)")
         else:
             # print(f"INVALID city name, does not exist in our Freight Booking system")
             output_list.append(f"INVALID city name, does not exist in our Freight Booking system.")
@@ -241,7 +248,7 @@ class FreightBooking:
                 temp_print = "".join(temp_print.rsplit(" >", 1)).strip()
                 output_list.append(f"Shortest Path : {temp_print}")
                 self.analyze_list.append(end_of_func)
-                self.analyze_list.append(f"findServiceAvailable -> ")
+                self.analyze_list.append(f"----------Function findServiceAvailable -----------")
                 self.analyze_list.append(f"Time Complexity for Average case scenario -> Big-Theta({count})")
                 self.analyze_list.append(f"Time Complexity for Worst case scenario -> "
                                          f"Big-O(city + all cities connected directly or indirectly with it)")
@@ -252,7 +259,9 @@ class FreightBooking:
                 output_list.append(f"Feasible Path does not exist between {city_a} and {city_b}")
                 # print(f"Shortest Path : {path}")
                 self.analyze_list.append(end_of_func)
-                self.analyze_list.append(f"findServiceAvailable -> Big-O({count})")
+                self.analyze_list.append(f"----------Function findServiceAvailable -----------")
+                self.analyze_list.append(f"Time Complexity for Worst case scenario -> "
+                                         f"Big-O(city + all cities connected directly or indirectly with it)")
         else:
             # print(f"INVALID city name, does not exist in our Freight Booking system")
             output_list.append(f"INVALID city name, does not exist in our Freight Booking system")
