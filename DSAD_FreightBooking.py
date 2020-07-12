@@ -53,6 +53,7 @@ class FreightBooking:
                 # print(i, cities[i], cities[i+1], train)
                 self.graph.add(cities[i], {cities[i+1]: [train]})
                 i += 1
+        print("GRAPH as ADJACENCY LIST : ")
         pretty_print.pprint(self.graph.get_graph)
 
     def show_all(self, output_list):
@@ -240,7 +241,6 @@ class FreightBooking:
                     count = count + counter
                     trains.append(temp.split(',')[-1:][0].strip())
                     i += 1
-                # trains.append("END")
                 # print(f"Shortest Path : {path}")
                 temp_print = ''
                 for train, city in itertools.zip_longest(trains, path, fillvalue='END'):
