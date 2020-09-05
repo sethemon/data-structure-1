@@ -29,6 +29,7 @@ Operations
 ------------------------------------------------------------
 This function reads the input file inputPS4.txt containing the name of the cities and the freight trains between them in one line separated by a slash. A sample input file entry is shown below. The Train number is the first entry in each row followed by the different cities it services separated by a slash ‘/’
 T1235 / Chennai / New Delhi
+
 The function should create relevant vertices for both the freight train and its associated cities and relevant edges to indicate the association of a train and its connecting cities. Ensure that the vertices are unique and there are no duplicates.
 
 2. def showAll(self): 
