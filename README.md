@@ -1,4 +1,4 @@
-# dsad-assignment
+# data-structures-1
 First Install Anaconda onto your system:
 https://repo.anaconda.com/archive/Anaconda3-2020.02-Windows-x86_64.exe
 
@@ -10,7 +10,7 @@ When installed, create a new project with Conda environment (set Python==3.7), a
 References: https://www.python.org/doc/essays/graphs/
 
 
-DSAD Assignment for Freight Booking 
+DSAD for Freight Booking 
 ======================================
 
 Problem Statement
